@@ -940,6 +940,7 @@ static int dev_acquisition_start(const struct sr_dev_inst *sdi)
 						cmd = ":LA:STAT ON";
 						break;
 					case PROTOCOL_V6:
+					default:
 						cmd = ":LA:ENAB ON";
 						break;
 					}
@@ -963,7 +964,8 @@ static int dev_acquisition_start(const struct sr_dev_inst *sdi)
 					cmd = ":LA:DISP D%d,%s";
 					break;
 				case PROTOCOL_V6:
-					cmd = ":LA:DIG:ENAB %";
+				default:
+					cmd = ":LA:DIG:ENAB D%d,%s";
 					break;
 				}
 

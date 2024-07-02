@@ -317,8 +317,8 @@ SR_PRIV int rigol_ds_config_set(const struct sr_dev_inst *sdi, const char *forma
 	if (ret != SR_OK)
 		return SR_ERR;
 
-	if (devc->model->series->protocol == PROTOCOL_V2) {
-		/* The DS1000 series needs this stupid delay, *OPC? doesn't work. */
+	if (devc->model->series->protocol == PROTOCOL_V2 || devc->model->series->protocol == PROTOCOL_V6) {
+		/* The DS1000, DHO800, DHO900 series need this stupid delay, *OPC? doesn't work. */
 		sr_spew("delay %dms", 100);
 		g_usleep(100 * 1000);
 		return SR_OK;
@@ -856,6 +856,7 @@ SR_PRIV int rigol_ds_get_dev_cfg(const struct sr_dev_inst *sdi)
 			cmd = ":LA:STAT?";
 			break;
 		case PROTOCOL_V6:
+		default:
 			cmd = ":LA:ENAB?";
 			break;
 		}
